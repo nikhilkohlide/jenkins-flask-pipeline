@@ -1,9 +1,11 @@
-from flask inport Flask
-app = Flask(_name_)
+from flask import Flask
 
-@app.root.(/)
-df hello():
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
     return "Hello from Jenkins Pipeline!"
 
-if_name_=='_main_':
-    app.run(host='0.0.0.0',port=5000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
