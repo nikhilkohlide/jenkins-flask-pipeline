@@ -1,22 +1,25 @@
 pipeline {
     agent any
+
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        IMAGE_NAME = "yourdockerhubusername/jenkins-flask"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
     }
+
     stages {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
+                    def app = docker.build("myapp:latest")
                 }
             }
         }
+
         stage('Push to DockerHub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
-                        dockerImage.push()
+                    docker.withRegistry('https://index.docker.io/v1/', "$DOCKERHUB_CREDENTIALS") {
+                        def app = docker.image("myapp:latest")
+                        app.push()
                     }
                 }
             }
